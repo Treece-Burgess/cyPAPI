@@ -176,9 +176,9 @@ def cyPAPI_strerror(int error_code):
         raise ValueError('Failed to get error message.')
     return str(c_str, encoding='utf-8')
 
-# see if this errors in any case
 def cyPAPI_num_components():
-    return PAPI_num_components()
+    cdef int num_comp = PAPI_num_components()
+    return num_comp
 
 def cyPAPI_get_component_index(str name):
     cdef int retval = PAPI_get_component_index(name.encode('utf-8'))
@@ -187,40 +187,28 @@ def cyPAPI_get_component_index(str name):
     return retval
 
 def cyPAPI_get_real_cyc():
-    cdef long long retval = PAPI_get_real_cyc()
-    if retval < 0:
-        raise _exceptions_for_cypapi[retval]
-    return retval
+    cdef long long time = PAPI_get_real_cyc()
+    return time
 
 def cyPAPI_get_real_nsec():
-    cdef long long retval = PAPI_get_real_nsec()
-    if retval < 0:
-        raise _exceptions_for_cypapi[retval]
-    return retval
+    cdef long long time = PAPI_get_real_nsec()
+    return time
 
 def cyPAPI_get_real_usec():
-    cdef long long retval = PAPI_get_real_usec()
-    if retval < 0:
-        raise _exceptions_for_cypapi[retval]
-    return retval
+    cdef long long time = PAPI_get_real_usec()
+    return time
 
 def cyPAPI_get_virt_cyc():
-    cdef long long retval = PAPI_get_virt_cyc()
-    if retval < 0:
-        raise _exceptions_for_cypapi[retval]
-    return retval
+    cdef long long time = PAPI_get_virt_cyc()
+    return time
 
 def cyPAPI_get_virt_nsec():
-    cdef long long retval = PAPI_get_virt_nsec()
-    if retval < 0:
-        raise _exceptions_for_cypapi[retval]
-    return retval
+    cdef long long time = PAPI_get_virt_nsec()
+    return time
 
 def cyPAPI_get_virt_usec():
-    cdef long long retval = PAPI_get_virt_usec()
-    if retval < 0:
-        raise _exceptions_for_cypapi[retval]
-    return retval
+    cdef long long time = PAPI_get_virt_usec()
+    return time
 
 def cyPAPI_enum_event(EventCode, modifier):
     """Enumerate PAPI preset or native events.
@@ -635,7 +623,7 @@ cdef class CypapiCreateEventset:
 
     def __cinit__(self):
         self.event_set = PAPI_NULL
-        cdef papi_errno = PAPI_create_eventset(&self.event_set)
+        cdef int papi_errno = PAPI_create_eventset(&self.event_set)
         if papi_errno != PAPI_OK:
             raise _exceptions_for_cypapi[papi_errno]
 
@@ -643,7 +631,7 @@ cdef class CypapiCreateEventset:
         return f'{self.event_set}'
 
     def cleanup_eventset(self):
-        cdef papi_errno = PAPI_cleanup_eventset(self.event_set)
+        cdef int papi_errno = PAPI_cleanup_eventset(self.event_set)
         if papi_errno != PAPI_OK:
             raise _exceptions_for_cypapi[papi_errno]
 
@@ -744,7 +732,7 @@ cdef class CypapiCreateEventset:
         PyMem_Free(vals)
 
     def list_events(self, probe = False):
-        cdef int *evts, retval, num_events = self.num_events()
+        cdef int *evts, papi_errno, num_events = self.num_events()
         # does not probe EventSet
         if not probe:
             evts = <int *> PyMem_Malloc(num_events * sizeof(int))
