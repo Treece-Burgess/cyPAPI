@@ -260,27 +260,23 @@ def cyPAPI_enum_event(EventCode, modifier):
     if mod == _PAPI_ENUM_FIRST:
         papi_errno = PAPI_enum_event(&evt_code, mod)
         if papi_errno != PAPI_OK:
-            raise Exception('Failed to enumerate first event.')
+            raise _exceptions_for_cypapi[papi_errno]
         evt_name = cyPAPI_event_code_to_name(evt_code)
         events[evt_name] = hex(evt_code & hexcode)
     # case if modifier other than PAPI_ENUM_FIRST_PROVIDED
     else:
         while True:
             papi_errno = PAPI_enum_event(&evt_code, mod)
-             # fill dictionary
+             # add enumerated events to dictionary
             if papi_errno == PAPI_OK: 
                 evt_name = cyPAPI_event_code_to_name(evt_code) 
                 events[evt_name] = hex(evt_code & hexcode) 
-            # dictonary has finished being filled
+            # completed enumeration of events
             elif papi_errno == PAPI_EINVAL or papi_errno == PAPI_ENOEVNT: 
-                break 
-            # provided EventCode not found
-            elif papi_errno == PAPI_ENOCMP: 
-                raise Exception('Component index is not set (PAPI_ENOCMP -17).')
-            # error uncounted for, function rework possibly needed
-            else: 
-                raise Exception('Internal error, please send mail to the'
-                                ' developers (PAPI_EBUG -6).')
+                break
+            # call to PAPI_enum_event failed
+            else:
+                raise _exceptions_for_cypapi[papi_errno]
 
     return events, evt_code
 
