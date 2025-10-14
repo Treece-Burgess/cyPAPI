@@ -1,0 +1,36 @@
+List of Available Exceptions
+============================
+
+There are a total of 27 custom cyPAPI exceptions, which are as follows:
+
+======================   ======================
+Name of Exception        Meaning of Exception    
+======================   ======================
+``CypapiEinval``         Invalid argument
+``CypapiEnomem``         Insufficient Memory
+``CypapiEsys``           A system or C library call failed
+``CypapiEcmp``           Not supported by component
+``CypapiEclost``         Access to the counters was lost or interrupted
+``CypapiEbug``           Internal error, please send mail to the developers
+``CypapiEnoevnt``        Hardware event does not exist
+``CypapiEcnflct``        Hardware event exists, but cannot be counted due to counter resource limitations
+``CypapiEnotrun``        No events or event sets are currently not counting
+``CypapiEisrun``         Event set is currently running
+``CypapiEnoevst``        No such event set available
+``CypapiEnotPresetn``    Event is not a valid preset
+``CypapiEnocntr``        Hardware does not support performance counters
+``CypapiEmisc``          Unknown error code
+``CypapiEperm``          You lack the necessary permissions
+``CypapiEnoinit``        Cypapi has not been properly initialized with linked PAPI build
+``CypapiEnocmp``         Component index is not set 
+``CypapiEnosupp``        Not supported
+``CypapiEnoimpl``        Not implemented
+``CypapiEbuf``           Buffer size exceeded
+``CypapiEinvalDom``      Event set domain is not supported for the operation
+``CypapiEattr``          Invalid or missing event attributes
+``CypapiEcount``         Too many events or attributes
+``CypapiEcombo``         Bad combination of features
+``CypapiEcmpDisabled``   Component containing event is disabled
+``CypapiEdelayInit``     Delayed initialization component
+``CypapiEmulpass``       Event exists, but cannot be counted due to multiple passes required by hardware
+======================   ======================

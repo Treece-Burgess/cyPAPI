@@ -1,0 +1,46 @@
+=================
+Installing cyPAPI
+=================
+
+Prerequisites
+=============
+
+Supported Python and Cython Versions
+------------------------------------
+
+To successfully use cyPAPI, you must have:
+    * A Python version greater than or equal to 3.7
+    * A Cython version greater than or equal to 3.0
+
+Linked PAPI Build
+-----------------
+
+For cyPAPI to function properly, you need to link against a PAPI build. If this has not been done
+then please see :ref:`reference-linked-papi`.
+
+Download a Copy of cyPAPI
+==========================
+
+To download a copy of cyPAPI you can either clone it from the GitHub repository to access the latest features:
+
+.. code-block:: console
+
+   $ git clone https://github.com/icl-utk-edu/cyPAPI.git
+
+Or you can use ``pip`` to install the latest stable version:
+
+.. code-block:: console
+
+   $ pip install cypapi
+
+Installation
+============
+
+Once you have completed the aforementioned steps, installing cyPAPI is simple:
+
+.. code-block:: console
+
+   $ cd cyPAPI
+   $ make install
+
+That is it! You can immediately get started with using cyPAPI.
