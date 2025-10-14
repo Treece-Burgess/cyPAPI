@@ -1,0 +1,50 @@
+=========================
+Demo of cyPAPI Exceptions
+=========================
+
+cyPAPI exceptions follow the same logic as Python exceptions. Therefore, ``try`` and ``except``
+blocks can be utilized to test code for errors and subsequently handle those errors in the way you desire. If
+you are not familiar with Python exception handling then please see the Python documentation section
+`Errors and Exceptions <https://docs.python.org/3/tutorial/errors.html>`_ before continuing on.
+
+.. code-block:: python
+
+   import cypapi as cyp 
+
+   # Initialize the cyPAPI library
+   cyp.cyPAPI_library_init(cyp.PAPI_VER_CURRENT)
+
+   # Create a cyPAPI event set
+   eventset_obj = cyp.CypapiCreateEventset()
+
+   # Get the component index for perf_event
+   component_name = "perf_event"
+   component_index = cyp.cyPAPI_get_component_index(component_name)
+
+   # Assign the eventset to the perf_event component
+   eventset_obj.assign_eventset_component(component_index)
+
+   # Get a list of available native events for perf_event
+   eventcode = 0 | cyp.PAPI_NATIVE_MASK
+   modifier = cyp.PAPI_ENUM_FIRST
+   native_event_dict, eventcode = cyp.cyPAPI_enum_event(eventcode, modifier)
+
+   ## Store first event name
+   list_of_event_names = []
+   list_of_event_names.append(next(iter(native_event_dict)))
+
+   ## Store second event name, note that this event name is fake
+   ## This will trigger the exception CypapiEnoevnt
+   list_of_event_names.append("perf::event_does_not_exist")
+
+   ## Store the third event name
+   modifier = cyp.PAPI_ENUM_EVENTS
+   native_event_dict, _ = cyp.cyPAPI_enum_event(eventcode, modifier)
+   list_of_event_names.append(next(iter(native_event_dict)))
+
+   # Attempt to add the native events
+   for eventname in list_of_event_names:
+       try:
+           eventset_obj.add_named_event(eventname)
+       except cyp.CypapiEnoevnt:
+           print(f"Unable to add the native event: {eventname}")

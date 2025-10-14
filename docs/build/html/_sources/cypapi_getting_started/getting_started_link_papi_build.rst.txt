@@ -1,0 +1,99 @@
+.. _reference-linked-papi:
+
+====================
+Linking a PAPI Build
+====================
+
+For cyPAPI to be successfully installed you need to link with a PAPI build
+that has your desired components configured in.
+
+Downloading PAPI
+================
+
+To download a copy of PAPI you can clone it from the GitHub repository:
+
+.. code-block:: console
+
+   $ git clone https://github.com/icl-utk-edu/papi.git
+
+Configuring and Installing PAPI
+===============================
+
+After successfully downloading PAPI, we must now configure and install.
+
+To configure PAPI with just the CPU components:
+
+.. code-block:: console
+
+   $ ./configure --prefix=$PWD/test-install
+
+To configure PAPI with various components:
+
+.. code-block:: console
+
+   $ ./configure --prefix=$PWD/test-install --with-components="cuda ..."
+
+To see an exhaustive list of supported components please see the table in the section titled `List of Components`_.
+
+.. _List of components: https://github.com/icl-utk-edu/papi/wiki/PAPI-Overview#list-of-components
+
+After configuring PAPI with the options and components desired, run:
+
+.. code-block:: console
+
+    $ make && make install
+
+Verify your PAPI Build was Successful
+=====================================
+
+Once the compliation has been completed, verify that the components you configured in are active by running ``papi_component_avail``:
+
+.. code-block:: console
+
+    $ cd test-install/bin
+    $ ./papi_component_avail
+
+As an example, configuring PAPI with just the CPU components with the correct permissions would net the following truncated output from ``papi_component_avail``:
+
+.. code-block:: console
+
+    --------------------------------------------------------------------------------
+
+    Compiled-in components:
+    Name:   perf_event              Linux perf_event CPU counters
+    Name:   perf_event_uncore       Linux perf_event CPU uncore and northbridge
+    Name:   sysdetect               System info detection component
+
+    Active components:
+    Name:   perf_event              Linux perf_event CPU counters
+                                    Native: 176, Preset: 59, Counters: 10
+                                    PMUs supported: ix86arch, perf, perf_raw, skx
+
+    Name:   perf_event_uncore       Linux perf_event CPU uncore and northbridge
+                                    Native: 2867, Preset: 0, Counters: 168
+                                    PMUs supported: rapl, skx_unc_cha0, skx_unc_cha1, skx_unc_cha2, skx_unc_cha3, skx_unc_cha4
+                                                    skx_unc_cha5, skx_unc_cha6, skx_unc_cha7, skx_unc_cha8, skx_unc_cha9
+                                                    skx_unc_cha10, skx_unc_cha11, skx_unc_cha12, skx_unc_cha13, skx_unc_cha14
+                                                    skx_unc_cha15, skx_unc_cha16, skx_unc_cha17, skx_unc_iio0, skx_unc_iio1
+                                                    skx_unc_iio2, skx_unc_iio3, skx_unc_iio4, skx_unc_iio5, skx_unc_imc0, skx_unc_imc1
+                                                    skx_unc_imc2, skx_unc_imc3, skx_unc_imc4, skx_unc_imc5, skx_unc_m2m0, skx_unc_m2m1
+                                                    skx_unc_m3upi0, skx_unc_m3upi1, skx_unc_m3upi2, skx_unc_pcu, skx_unc_ubo
+                                                    skx_unc_upi0, skx_unc_upi1, skx_unc_upi2
+
+    Name:   sysdetect               System info detection component
+                                    Native: 0, Preset: 0, Counters: 0
+
+
+    -------------------------------------------------------------------------------- 
+
+Export PAPI_DIR
+===============
+
+As cyPAPI is an intermediate Python interface to access PAPI profiling features, one must export the environment variable ``PAPI_DIR``.
+This environment variable needs to be assigned to your PAPI build install path, as an example:
+
+.. code-block:: console
+
+   $ export PAPI_DIR=$PWD/test-install
+
+After this has been done, you can now build cyPAPI.

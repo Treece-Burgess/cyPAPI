@@ -1,0 +1,9 @@
+cyPAPI Custom Exceptions
+========================
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+
+   cypapi_exceptions_lists
+   cypapi_exceptions_example

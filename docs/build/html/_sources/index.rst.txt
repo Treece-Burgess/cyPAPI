@@ -1,0 +1,10 @@
+========================
+cyPAPI Programming Guide
+========================
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+
+   cypapi_getting_started/index
+   cypapi_error_handling/index
