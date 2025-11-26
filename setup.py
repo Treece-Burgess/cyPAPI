@@ -41,6 +41,9 @@ if not papi_path:
     papi_path = get_papi_path_env_var('LIBRARY_PATH')
 if not papi_path:
     papi_path = get_papi_path_env_var('LD_LIBRARY_PATH')
+if not papi_path:
+    print("We are using this option.")
+    papi_path = "papi/src/papi-installation"
 
 if papi_path:
     configure_extension(ext_papi, papi_path)
