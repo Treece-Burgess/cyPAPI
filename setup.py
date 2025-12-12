@@ -1,10 +1,6 @@
 from setuptools import setup, Extension
 from Cython.Build import cythonize
-<<<<<<< HEAD
-import os, subprocess
-=======
 import os, subprocess, platform
->>>>>>> f72c0d9 (Changes to setup.py)
 import numpy
 
 def configure_extension_module(extension_module: Extension, papi_install_parent_directory: str):
@@ -91,7 +87,7 @@ if papi_install_parent_directory is None:
 configure_extension_module(extension_module_papi, papi_install_parent_directory)
 
 internal_compile_time_envs = {}
-cuda_compiled_in_command = f"{papi_path}/bin/papi_component_avail | sed -n '/Compiled-in components:/,/Active components:/p' | grep 'Name:   cuda'"
+cuda_compiled_in_command = f"{papi_install_parent_directory}/bin/papi_component_avail | sed -n '/Compiled-in components:/,/Active components:/p' | grep 'Name:   cuda'"
 # Check to see if the cuda component was compiled in
 try:
     completed_process = subprocess.run(cuda_compiled_in_command, shell = True, check = True, capture_output = True)
