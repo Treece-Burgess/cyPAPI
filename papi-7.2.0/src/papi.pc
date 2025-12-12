@@ -1,0 +1,11 @@
+prefix=/home/users/tburgess/treece_cypapi_fork/cyPAPI/papi-7.2.0/src/papi_build_ppc64le_gcc
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: PAPI
+Description: Performance API to access performance metrics on system
+Version: 7.2.0.0
+Libs: -L${libdir} -lpapi
+Libs.private:  -lrt
+Cflags: -I${includedir}
